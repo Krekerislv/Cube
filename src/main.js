@@ -1,8 +1,7 @@
 
 import * as THREE from '../libs/three.js/build/three.module.js';
-import { OrbitControls } from "../libs/three.js/examples/jsm/controls/OrbitControls.js"
-import "../libs/socket.io/socket.io.min.js"
-
+import { OrbitControls } from "../libs/three.js/examples/jsm/controls/OrbitControls.js";
+import "../libs/socket.io/socket.io.min.js";
 
 const socket = io();
 socket.connect();
@@ -23,13 +22,15 @@ const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.inner
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize( window.innerWidth,  window.innerHeight );
+
 addEventListener("resize", (event) => {
     renderer.setSize( window.innerWidth, window.innerHeight );
     camera.aspect =  window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
 });
 
-document.body.appendChild( renderer.domElement );
+const simulationSection = document.getElementById('simulation');
+simulationSection.appendChild( renderer.domElement );
 
 //setup orbit camera
 const controls = new OrbitControls( camera, renderer.domElement );
@@ -41,7 +42,7 @@ var R = 31;
 var G = 31;
 var B = 31;
 var x = 0;
-var y = 0;  
+var y = 0;
 var z = 0;
 
 
@@ -71,7 +72,7 @@ for (let i =0; i < cubeSize; i++) {
             cube.location = [i, j, k];
             tmpK.push(cube);
             cubeGroup.add(cube);
-            
+
             x += spacing;
         }
         x = 0;
@@ -102,7 +103,7 @@ const boundingBox = new THREE.Box3().setFromObject(cubeGroup);
 /*
     Atsevišķu kubu indeksēšana un parametru izmainīšana
 */
-console.log(cubes);  
+console.log(cubes);
 console.log(cubes[0][1][2]);
 cubes[0][1][2].material.color.set(0x00ff00);
 
