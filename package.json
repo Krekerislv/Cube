@@ -11,5 +11,8 @@
   "dependencies": {
     "express": "*",
     "socket.io": "*"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.2.7"
   }
 }
