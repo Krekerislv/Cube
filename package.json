@@ -4,15 +4,17 @@
   "description": "LED Cube visualizer",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npx tailwind -i ./src/css/main.css -o ./src/css/styles.css",
     "start": "node node_script.js"
   },
   "author": "K.A Vasermans, M. Čudars, A. Skrastiņš, E. Jančevskis, D. Boroduļins",
   "license": "ISC",
   "dependencies": {
     "express": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "tailwindcss": "^3.2.7"
   },
   "devDependencies": {
-    "tailwindcss": "^3.2.7"
+    
   }
 }

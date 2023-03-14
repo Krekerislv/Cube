@@ -17,12 +17,4 @@
 	```
 	npm start
 	```
-4) run
-	```
-	npm install -D tailwindcss
-	```
-5) to compile styles
-	```
-	npx tailwind -i ./src/css/main.css -o ./src/css/styles.css --watch
-	```
-6) Go to http://localhost:1234
+4) Go to http://localhost:1234
