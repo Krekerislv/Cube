@@ -9,8 +9,12 @@
 		, ``` 
 		sudo apt install npm
 		```
-2) run
+2) setup dependencies
+	```
+	npm install
+	```
+3) run
 	```
 	npm start
 	```
-3) Go to http://localhost:1234
+4) Go to http://localhost:1234
