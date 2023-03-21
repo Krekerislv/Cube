@@ -5,12 +5,12 @@ module.exports = {
     colors: {
       'primary': {
         'white': '#F2F2F2',
+        'black': '#0D0D0D',
         'gray': {
           'light': '#A4A4A6',
           'mid': '#404040',
           'dark': '#262626',
         },
-        'black': '#0D0D0D',
         'blue': {
           'lighter': '#08678C',
           'light': '#074973',
