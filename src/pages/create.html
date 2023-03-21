@@ -53,8 +53,8 @@
         <div id="heading" class="flex justify-center mt-5">
             <h1 class="text-primary-white text-2xl">Editor</h1>
         </div>
-        <div class="h-[85vh] mt-3 shadow-lg flex">
-            <div class="h-full w-[95%] bg-primary-gray-mid" id="row-section">
+            <div class="h-[85vh] mt-3 shadow-lg flex">
+            <div class="h-full w-[95%] bg-primary-gray-mid overflow-y-auto" id="row-section">
             </div>
             <div id="tools" class="w-10 h-full ml-2 bg-primary-gray-light flex justify-center">
                 <div class="text-primary-gray-dark font-bold text-2xl cursor-pointer" onclick="addNewRow()">+</div>
@@ -62,7 +62,21 @@
         </div>
 
     </div>
-    <div id="right-sidebar" class="col-span-1"></div>
+    <div id="right-sidebar" class="col-span-1">
+        <div class="flex justify-center">
+            <div class="mt-20 flex flex-col justify-center">
+                <div class="flex justify-center">
+                    <label for="color-picker" class="text-primary-white text-xl font-semibold">Select a color:</label>
+                </div>
+                <div class="flex justify-center w-full h-full">
+                    <input type="color" id="color-picker" name="color-picker" class="items-center w-12 h-12" value="#0000ff">
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
 </div>
 <script src="./src/main.js" type="module"></script>
 </body>
