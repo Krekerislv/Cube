@@ -1,6 +1,5 @@
 function addNewRow() {
     let editorPanel = document.getElementById('row-section');
-    console.log(editorPanel);
 
     let newRow = document.createElement('div');
     newRow.classList.add('flex', 'justify-center');
