@@ -152,42 +152,44 @@ function startSimulation() {
         
         i++;
         if (i != animArr.length) {
-            //clearInterval(repeater);
             setTimeout(drawSimulation, getTimeout());
         }
     }
     drawSimulation();
 }
 
-const btn_export = document.getElementById("btn_export");
+const btn_export = document.getElementById("export_anim");
 btn_export.addEventListener('click', (e) => {
-    //TODO
-    console.log("export");
 
     let arr2export = JSON.stringify(getArray());
-    let blob_obj = new Blob(arr2export);//, {type: "application/json"});//, { type: "octet/stream"});
+    let blob_obj = new Blob([arr2export], {type: "application/json"});
 
-    //can create a blob object from 1d json stringify arr
-
-    
-    //let url = URL.createObjectURL(blob_obj)
-    //let a = document.createElement('a')
-    //a.setAttribute('href', url)
-    //a.setAttribute('download', "Anim_" + new Date().toISOString() + ".lcaf");
-    //a.click()
-
-    //let restored_arr = JSON.parse(blob_obj.text());
-    //console.log(restored_arr);
-
-
-
-
-
+    let url = URL.createObjectURL(blob_obj)
+    let a = document.createElement('a')
+    a.setAttribute('href', url)
+    //perhaps ask user to name animation? If blank then animation.lcaf
+    //lcaf = led cube animation file (which is actually just array in text format)
+    let fileName = "Anim_" + new Date().toISOString() + ".lcaf";
+    a.setAttribute('download', fileName);
+    a.click();
+    console.log(getArray());
 });
 
 
-const btn_import = document.getElementById("btn_import");
-btn_import.addEventListener('click', (e) => {
-    console.log("import");
+const input_import_anim = document.getElementById("lcaf_upload");
+input_import_anim.addEventListener('change', (e) => {
+    let file = e.target.files[0];
+
+    const reader = new FileReader();
+  
+    reader.addEventListener('load', (event) => {
+        const fileContent = event.target.result;
+        let loadedArr = JSON.parse(fileContent) 
+        loadFromArray(loadedArr);
+    });
+  
+   reader.readAsText(file);
+
+   
 
 });

@@ -1,3 +1,4 @@
+var rowIDs = [];
 function addNewRow() {
     let editorPanel = document.getElementById('row-section');
 
@@ -9,6 +10,7 @@ function addNewRow() {
     }
     const rowId = Math.random().toString(36).substring(2, 18);
     newRow.id = rowId;
+    rowIDs.push(newRow.id);
 
     const deleteButton = createDeleteButton();
     deleteButton.setAttribute('row-id', rowId);
@@ -21,6 +23,8 @@ function addNewRow() {
     editorPanel.appendChild(newRow);
 
     mouseDownColor();
+
+    return newRow;
 }
 
 // Create a layer for the cube AKA 8x8 array or a table
@@ -174,4 +178,41 @@ function getTimeout() {
     timeoutElement.value = timeout;
 
     return timeout;
+}
+
+function clearWindow() {
+    if (rowIDs.length == 0) return;
+    for (let rowID of rowIDs) {
+        deleteRow(rowID);
+    }
+    rowIDs.length = 0;
+}
+
+function loadFromArray(anim_arr) {
+    clearWindow();
+    console.log(anim_arr)
+    //const animationArray = anim_arr;
+
+    for(let i = 0; i < anim_arr.length; i++) {
+        let newRow = addNewRow();
+        let tables = newRow.querySelectorAll('table');
+
+        // go through each table in a row
+        for(let j = 0; j < tables.length; j++) {
+            let tableRows = tables[j].querySelectorAll('tr');
+
+            // go through each row in a table
+            for (let k = 0; k < tableRows.length; k++) {
+                let cells = tableRows[k].querySelectorAll('td');
+
+                // go through each cell in row
+                for(let n = 0; n < cells.length; n++) {
+                    
+                    cells[n].style.backgroundColor = anim_arr[i][j][k][n];
+                }
+            }
+        }
+    }
+
+
 }
