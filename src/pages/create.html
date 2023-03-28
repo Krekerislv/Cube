@@ -47,7 +47,6 @@
                 </div>
             </div>
         </div>
-        <div id="simulation" class="w-10"></div>
     </div>
     <div id="editor-panel" class="col-span-3">
         <div id="heading" class="flex justify-center mt-5">
@@ -55,8 +54,11 @@
         </div>
         <div class="h-[85vh] mt-3 shadow-lg flex">
             <div class="h-full w-[95%] bg-primary-gray-mid overflow-y-auto" id="row-section"></div>
-            <div id="tools" class="w-10 h-full ml-2 bg-primary-gray-light flex justify-center">
-                <div class="text-primary-gray-dark font-bold text-2xl cursor-pointer" onclick="addNewRow()">+</div>
+            <div id="tools" class="w-10 h-full ml-2 bg-primary-gray-light p-2">
+                <i class="bi bi-plus text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Add new row" onclick="addNewRow()"></i>
+                <i class="bi bi-arrow-down-left-square-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Open simulation popup" id="open-popup"></i>
+                <i class="bi bi-play-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Start simulation" id="simulate-action"></i>
+                <i class="bi bi-square-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="End simulation" id="stop-simulation"></i>
             </div>
         </div>
 
@@ -78,10 +80,13 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>
-<script src="./src/main.js" type="module"></script>
+<div id="simulation-popup" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-mid p-10 rounded-md shadow-lg">
+    <div id="simulation"></div>
+
+</div>
+<!--<script src="./src/main.js" type="module"></script>-->
+<script src="../js/editor/simulate.js" type="module"></script>
 </body>
 </html>
