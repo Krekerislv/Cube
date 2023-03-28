@@ -20,10 +20,13 @@ function addNewRow() {
 
     editorPanel.appendChild(newRow);
 
-    test();
+    mouseDownColor();
 
+    // for now on each added row of tables, there will be printed out the 4D array of cell values
+    console.log(getArray());
 }
 
+// Create a layer for the cube AKA 8x8 array or a table
 function createLayer() {
     const table = document.createElement('table');
 
@@ -37,10 +40,6 @@ function createLayer() {
 
             cell.classList.add('h-3', 'w-3', 'border', 'border-black', 'bg-primary-white');
 
-            // cell.addEventListener('click', function() {
-            //     colorCell(cell);
-            // });
-
             row.appendChild(cell);
         }
 
@@ -50,18 +49,21 @@ function createLayer() {
     return table;
 }
 
+// Create a delete button
 function createDeleteButton() {
     let deleteButton = document.createElement('i');
     deleteButton.classList.add('bi', 'bi-trash3-fill', 'text-2xl', 'font-semibold', 'mt-8', 'text-primary-white');
     return deleteButton;
 }
 
+// Delete row
 function deleteRow(rowId) {
     const rowToDelete = document.getElementById(rowId);
 
     rowToDelete.parentNode.removeChild(rowToDelete);
 }
 
+// set a background color to a cell passed to colorCell() function
 function colorCell(cell) {
     const colorPicker = document.getElementById('color-picker');
 
@@ -70,7 +72,7 @@ function colorCell(cell) {
     cell.style.backgroundColor = color;
 }
 
-function test () {
+function mouseDownColor () {
     const tables = document.querySelectorAll("table");
     tables.forEach((table) => {
         const cells = table.querySelectorAll("td");
@@ -83,11 +85,9 @@ function test () {
         });
 
         cells.forEach((cell) => {
-            console.log('test');
             cell.addEventListener("mousedown", () => {
                 isMouseDown = true;
                 cell.style.backgroundColor = currentColor;
-                console.log('test');
             });
             cell.addEventListener("mouseover", () => {
                 if (isMouseDown) {
@@ -101,4 +101,57 @@ function test () {
             isMouseDown = false;
         });
     })
+}
+
+// Return a 4D array that represents each cell of 3D cube in time
+function getArray() {
+    let container = document.getElementById('row-section');
+
+    let tableArray = [];
+
+    let rows = container.querySelectorAll('div');
+
+    // go through all of the rows added in the editor
+    for(let i = 0; i < rows.length; i++) {
+        let tableRowArray = [];
+        let tables = rows[i].querySelectorAll('table');
+
+        // go through each table in a row
+        for(let j = 0; j < tables.length; j++) {
+            let tableArray2D = [];
+            let tableRows = tables[j].querySelectorAll('tr');
+
+            // go through each row in a table
+            for (let k = 0; k < tableRows.length; k++) {
+                let tableArray3D = [];
+                let cells = tableRows[k].querySelectorAll('td');
+
+                // go through each cell in row
+                for(let n = 0; n < cells.length; n++) {
+                    tableArray3D.push(rgbToHex(cells[n].style.backgroundColor));
+                }
+                tableArray2D.push(tableArray3D);
+            }
+
+            tableRowArray.push(tableArray2D);
+        }
+
+        tableArray.push(tableRowArray);
+    }
+
+    return tableArray;
+}
+
+// convert RGB to hex
+function rgbToHex(rgb) {
+    let rgbValues = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+    if (rgbValues) {
+        let r = parseInt(rgbValues[1]);
+        let g = parseInt(rgbValues[2]);
+        let b = parseInt(rgbValues[3]);
+        let hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        return hex;
+    } else {
+        return "";
+    }
 }
