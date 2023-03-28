@@ -21,12 +21,6 @@ function addNewRow() {
     editorPanel.appendChild(newRow);
 
     mouseDownColor();
-
-    // for now on each added row of tables, there will be printed out the 4D array of cell values
-    console.log(getArray());
-
-    // for testing purposes print out the selected timeout
-    console.log('timeout: ' + getTimeout());
 }
 
 // Create a layer for the cube AKA 8x8 array or a table
