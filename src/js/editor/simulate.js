@@ -7,7 +7,7 @@ const socket = io();
 socket.connect();
 //when socket is connected:
 socket.on('connect', () => {
-    //do smtn
+    console.log(`Connected to server. Your id: ${socket.id}`);
 });
 
 const popupWidth = window.innerWidth / 2;
@@ -99,14 +99,6 @@ scene.add(cubeGroup);
 const boundingBox = new THREE.Box3().setFromObject(cubeGroup);
 
 
-/*
-    Atsevišķu kubu indeksēšana un parametru izmainīšana
-*/
-console.log(cubes);
-console.log(cubes[0][1][2]);
-cubes[0][1][2].material.color.set(0x00ff00);
-
-
 camera.position.y = 10;
 camera.position.x = -10;
 //set initial camera direction
@@ -143,5 +135,59 @@ const startSimulationButton = document.getElementById('simulate-action');
 startSimulationButton.addEventListener('click', startSimulation);
 
 function startSimulation() {
-    console.log(getArray());
+    //contains all rgb values for each frame
+    let animArr = getArray();
+
+    let i = 0;
+    function drawSimulation() {
+        
+        for (let n = 0; n < cubeSize; n++) {
+            for (let l = 0; l < cubeSize; l++) {
+                for (let o = 0; o < cubeSize; o++) {
+                    let ledColor = animArr[i][n][l][o]; //color for specific led
+                    cubes[n][l][o].material.color.set(ledColor);  
+                }   
+            }
+        }
+        
+        i++;
+        if (i != animArr.length) {
+            //clearInterval(repeater);
+            setTimeout(drawSimulation, getTimeout());
+        }
+    }
+    drawSimulation();
 }
+
+const btn_export = document.getElementById("btn_export");
+btn_export.addEventListener('click', (e) => {
+    //TODO
+    console.log("export");
+
+    let arr2export = JSON.stringify(getArray());
+    let blob_obj = new Blob(arr2export);//, {type: "application/json"});//, { type: "octet/stream"});
+
+    //can create a blob object from 1d json stringify arr
+
+    
+    //let url = URL.createObjectURL(blob_obj)
+    //let a = document.createElement('a')
+    //a.setAttribute('href', url)
+    //a.setAttribute('download', "Anim_" + new Date().toISOString() + ".lcaf");
+    //a.click()
+
+    //let restored_arr = JSON.parse(blob_obj.text());
+    //console.log(restored_arr);
+
+
+
+
+
+});
+
+
+const btn_import = document.getElementById("btn_import");
+btn_import.addEventListener('click', (e) => {
+    console.log("import");
+
+});

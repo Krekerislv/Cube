@@ -103,8 +103,8 @@ const boundingBox = new THREE.Box3().setFromObject(cubeGroup);
 /*
     Atsevišķu kubu indeksēšana un parametru izmainīšana
 */
-console.log(cubes);
-console.log(cubes[0][1][2]);
+//console.log(cubes);
+//console.log(cubes[0][1][2]);
 cubes[0][1][2].material.color.set(0x00ff00);
 
 
