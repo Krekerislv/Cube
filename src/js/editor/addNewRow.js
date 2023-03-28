@@ -125,7 +125,15 @@ function getArray() {
 
                 // go through each cell in row
                 for(let n = 0; n < cells.length; n++) {
-                    tableArray3D.push(rgbToHex(cells[n].style.backgroundColor));
+                    let clrHex = cells[n].style.backgroundColor;
+                    if (clrHex == "") {
+                        //for the actual cube, in this case color will be set to #00000
+                        //but in simulation #00000 is black (invisible)
+                        tableArray3D.push("#ffffff");
+                    } else {
+                        tableArray3D.push(clrHex);
+                    }
+                    
                 }
                 tableArray2D.push(tableArray3D);
             }
