@@ -130,14 +130,7 @@ function getArray() {
                 // go through each cell in row
                 for(let n = 0; n < cells.length; n++) {
                     let clrHex = cells[n].style.backgroundColor;
-                    if (clrHex == "") {
-                        //for the actual cube, in this case color will be set to #00000
-                        //but in simulation #00000 is black (invisible)
-                        tableArray3D.push("#ffffff");
-                    } else {
-                        tableArray3D.push(clrHex);
-                    }
-                    
+                    tableArray3D.push(clrHex); 
                 }
                 tableArray2D.push(tableArray3D);
             }
@@ -190,8 +183,6 @@ function clearWindow() {
 
 function loadFromArray(anim_arr) {
     clearWindow();
-    console.log(anim_arr)
-    //const animationArray = anim_arr;
 
     for(let i = 0; i < anim_arr.length; i++) {
         let newRow = addNewRow();
