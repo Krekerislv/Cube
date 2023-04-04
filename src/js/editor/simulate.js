@@ -1,4 +1,6 @@
 import { LEDCube } from '../cube.js';
+import { AnimationEditor } from './AnimationEditor.js';
+
 
 
 const ledSize = 1;
@@ -17,6 +19,11 @@ const simulationSection = document.getElementById('simulation');
 const popupButton = document.getElementById('open-popup');
 const simulationPopup = document.getElementById('simulation-popup');
 
+const addNewRowBtn = document.getElementById("btn_addNewRow");
+const editorPanel = document.getElementById("row-section");
+
+var animationEditor = new AnimationEditor(editorPanel, addNewRowBtn);
+
 var ledCube = new LEDCube(cubeDim,ledSize,spacing,popupWidth,popupHeight);
 
 simulationSection.appendChild( ledCube.renderer.domElement );
@@ -32,7 +39,7 @@ popupButton.addEventListener('click', () => {
 
 
 startSimulationButton.addEventListener('click', () => {
-    ledCube.startSimulation(getArray(), getTimeout());
+    ledCube.startSimulation( animationEditor.getArray(), animationEditor.getTimeout());
 });
 
 
@@ -44,7 +51,7 @@ stopSimulationButton.addEventListener("click", (e) => {
 
 btn_export.addEventListener('click', (e) => {
 
-    let arr2export = JSON.stringify(getArray());
+    let arr2export = JSON.stringify(animationEditor.getArray());
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 
     let url = URL.createObjectURL(blob_obj)
@@ -66,8 +73,9 @@ input_import_anim.addEventListener('change', (e) => {
   
     reader.addEventListener('load', (event) => {
         const fileContent = event.target.result;
-        let loadedArr = JSON.parse(fileContent) 
-        loadFromArray(loadedArr);
+        let loadedArr = JSON.parse(fileContent);
+         console.log(loadedArr);
+        animationEditor.loadFromArray(loadedArr);
     });
   
    reader.readAsText(file);

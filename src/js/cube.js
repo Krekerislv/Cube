@@ -14,7 +14,7 @@ export class LEDCube {
             windowHeight - renerer's height
 
         class methods:
-            initCube() - creates cube and sets default values
+            init() - creates cube and sets default values
             stopSimulation() - stops simulation
             startSimulation() - starts infinite simulation loop with given timeout and 4D array
     */
