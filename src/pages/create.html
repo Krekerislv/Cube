@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LED CUBE viewer</title>
-    <link href="../css/styles.css" rel="stylesheet">
+    <link href="../../src/css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 </head>
-<script src="../js/sidebar/sidebar.js"></script>
+<script src="../../src/js/sidebar/sidebar.js"></script>
 <body class="block overflow-hidden bg-primary-black">
 <div class="grid grid-cols-5 gap-4">
     <div class="col-span-1">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="p-2.5 mt-3 flex items-center rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
                     <i class="bi bi-pencil-square text-xl font-bold"></i>
-                    <a class="ml-4 text-gray-200 font-semibold text-lg" href="./src/pages/create.html">Edit</a>
+                    <a class="ml-4 text-gray-200 font-semibold text-lg" href="/edit">Edit</a>
                 </div>
             </div>
         </div>
@@ -74,6 +74,6 @@
 <div id="simulation-popup" class="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-mid p-10 rounded-md shadow-lg">
     <div id="simulation"></div>
 </div>
-<script src="../js/editor/simulate.js" type="module"></script>
+<script src="../../src/js/editor/simulate.js" type="module"></script>
 </body>
 </html>

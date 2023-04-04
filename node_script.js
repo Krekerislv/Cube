@@ -37,8 +37,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
-
-
+// Route for edit page
+app.get('/edit', (req, res) => {
+    res.sendFile(__dirname + '/src/pages/create.html');
+});
 
 // Start the server
 const port = 1234;
