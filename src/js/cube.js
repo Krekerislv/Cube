@@ -42,9 +42,13 @@ export class LEDCube {
         this.camera = new THREE.PerspectiveCamera( 75, this.windowWidth / this.windowHeight, 0.1, 1000 );
 
         //set camera init position
-        this.camera.position.x = -(this.spacing * (this.cubeDim-1));
-        this.camera.position.y = this.spacing * (this.cubeDim-1) /2;
-        this.camera.position.z = this.spacing * (this.cubeDim-1) /2;
+        //this.camera.position.x = -(this.spacing * (this.cubeDim-1));
+        //this.camera.position.y = this.spacing * (this.cubeDim-1) /2;
+        //this.camera.position.z = this.spacing * (this.cubeDim-1) /2;
+
+        this.camera.position.x = -10;
+        this.camera.position.y = 35;
+        this.camera.position.z = 40;
         
 
         //apply updated values to camera
@@ -63,7 +67,6 @@ export class LEDCube {
             this.renderer.setSize( window.innerWidth / widthCoef, window.innerHeight / heightCoef );
             this.camera.aspect =  window.innerWidth / window.innerHeight;
             this.camera.updateProjectionMatrix();
-            console.log("douing stuff");
         });
 
         //setup camera controls
@@ -96,15 +99,17 @@ export class LEDCube {
                     cube.location = [i, j, k];
                     tmpK.push(cube);
                     cubeGroup.add(cube);
-                    if (x== 0 && y==0 &z== 4) {
+                    /*
+                    if (x== 0 && y==0 &z== this.spacing) {
                         cube.material.color.set(new THREE.Color("#ff0000"));
                     }
-                    if (x== 0 && y==4 &z== 0) {
+                    if (x== 0 && y==this.spacing &z== 0) {
                         cube.material.color.set(new THREE.Color("#00ff00"));
                     }
-                    if (x== 4 && y==0 & z== 0) {
+                    if (x== this.spacing && y==0 & z== 0) {
                         cube.material.color.set(new THREE.Color("#0000ff"));
                     }
+                    */
 
                     x += this.spacing;
                 }

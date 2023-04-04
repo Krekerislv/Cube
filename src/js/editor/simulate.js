@@ -65,21 +65,18 @@ btn_export.addEventListener('click', (e) => {
 });
 
 
-
+input_import_anim.addEventListener("click", () => {
+    input_import_anim.value = null;
+});
 input_import_anim.addEventListener('change', (e) => {
     let file = e.target.files[0];
-
     const reader = new FileReader();
   
     reader.addEventListener('load', (event) => {
         const fileContent = event.target.result;
         let loadedArr = JSON.parse(fileContent);
-         console.log(loadedArr);
         animationEditor.loadFromArray(loadedArr);
     });
   
    reader.readAsText(file);
-
-   
-
 });

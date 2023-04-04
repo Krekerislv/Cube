@@ -53,8 +53,8 @@ export class AnimationEditor {
         const deleteButton = this.createDeleteButton();
         deleteButton.setAttribute('row-id', rowId);
     
-        deleteButton.addEventListener('click', function () {
-            this.deleteRow(rowId);
+        deleteButton.addEventListener('click', () => {
+            this.deleteRow(newRow);
         });
         newRow.appendChild(deleteButton);
     
@@ -93,9 +93,10 @@ export class AnimationEditor {
         return deleteButton;
     }
 
-    deleteRow(rowId) {
-        const rowToDelete = document.getElementById(rowId);
-        rowToDelete.parentNode.removeChild(rowToDelete);
+    deleteRow(row) {
+        row.remove();
+        //remove from rows
+        this.rows.splice(this.rows.indexOf(row),1);
     }
 
     mouseDownColor () {
@@ -131,17 +132,16 @@ export class AnimationEditor {
 
     clearWindow() {
         for (let row of this.rows) {
-            this.deleteRow(row.id);
+           row.remove();
         }
         this.rows.length = 0;
     }
 
-    async loadFromArray(anim_arr) {
+    loadFromArray(anim_arr) {
         this.clearWindow();
     
         for(let i = 0; i < anim_arr.length; i++) {
             let newRow = this.addNewRow();
-            console.log(newRow)
             let tables = newRow.querySelectorAll('table');
     
             // go through each table in a row
@@ -149,8 +149,8 @@ export class AnimationEditor {
                 let tableRows = tables[j].querySelectorAll('tr');
     
                 // go through each row in a table
-                for (let k = 0; k < tableRows.length; k++) {
-                    let cells = tableRows[k].querySelectorAll('td');
+                for (let k = 0; k <  tableRows.length ; k++) {
+                    let cells = tableRows[tableRows.length-1-k].querySelectorAll('td');
     
                     // go through each cell in row
                     for(let n = 0; n < cells.length; n++) {
@@ -164,7 +164,7 @@ export class AnimationEditor {
     
     }
 
-    rgbToHex() {
+    rgbToHex(rgb) {
         let rgbValues = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
         if (rgbValues) {
             let r = parseInt(rgbValues[1]);
@@ -182,12 +182,10 @@ export class AnimationEditor {
 
         let tableArray = [];
 
-        let rows = this.editorPanel.querySelectorAll('div');
-
         // go through all of the rows added in the editor
-        for(let i = 0; i < rows.length; i++) {
+        for(let i = 0; i < this.rows.length; i++) {
             let tableRowArray = [];
-            let tables = rows[i].querySelectorAll('table');
+            let tables = this.rows[i].querySelectorAll('table');
 
             // go through each table in a row
             for(let j = 0; j < tables.length; j++) {
@@ -195,13 +193,13 @@ export class AnimationEditor {
                 let tableRows = tables[j].querySelectorAll('tr');
 
                 // go through each row in a table
-                for (let k = 0; k < tableRows.length; k++) {
+                for (let k = tableRows.length-1; k >= 0; k--) {
                     let tableArray3D = [];
                     let cells = tableRows[k].querySelectorAll('td');
 
                     // go through each cell in row
                     for(let n = 0; n < cells.length; n++) {
-                        let clrHex = cells[n].style.backgroundColor;
+                        let clrHex = this.rgbToHex(cells[n].style.backgroundColor);
                         tableArray3D.push(clrHex); 
                     }
                     tableArray2D.push(tableArray3D);
