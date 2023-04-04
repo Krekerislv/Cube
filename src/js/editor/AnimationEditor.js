@@ -1,26 +1,22 @@
-export class AnimationEditor {
-    /*
-        class variables:
-            rows - contains all rows
-            editorPanel - parent element of editor
+/*
+    class variables:
+        rows - contains all rows
+        editorPanel - parent element of editor
 
-        AddNewRow() add new row to editor
-        createDeleteButton() - adds delete button next to row
-        deleteRow(rowID) - deletes row with rowID
-        mouseDownColor() - colors cells
-        clearWindow() - deletes everything
-        loadFromArray(anim_arr) - loads animation frames from array
-        rgbToHex() - converts rgb value to hex
-        */
+    AddNewRow() add new row to editor
+    createDeleteButton() - adds delete button next to row
+    deleteRow(rowID) - deletes row with rowID
+    mouseDownColor() - colors cells
+    clearWindow() - deletes everything
+    loadFromArray(anim_arr) - loads animation frames from array
+    rgbToHex() - converts rgb value to hex
+    */
+export class AnimationEditor {
     rows = [];
 
     constructor(editorPanel, addNewRowBtn) {
-
         this.editorPanel = editorPanel;
         this.addNewRowBtn = addNewRowBtn;
-
-
-
         this.addNewRow = this.addNewRow.bind(this);
         this.createLayer = this.createLayer.bind(this);
         this.createDeleteButton = this.createDeleteButton.bind(this);
@@ -33,63 +29,63 @@ export class AnimationEditor {
         this.colorCell = this.colorCell.bind(this);
         this.getTimeout = this.getTimeout.bind(this);
 
-
         this.addNewRowBtn.addEventListener("click", () => {
             this.addNewRow();
         });
     };
 
     addNewRow() {
-    
         let newRow = document.createElement('div');
         newRow.classList.add('flex', 'justify-center');
+
         for (let i = 0; i < 8; i++) {
             const layer = this.createLayer();
             newRow.appendChild(layer);
         }
         const rowId = Math.random().toString(36).substring(2, 18);
         newRow.id = rowId;
-    
+
         const deleteButton = this.createDeleteButton();
         deleteButton.setAttribute('row-id', rowId);
-    
+
         deleteButton.addEventListener('click', () => {
             this.deleteRow(newRow);
         });
         newRow.appendChild(deleteButton);
-    
+
         this.editorPanel.appendChild(newRow);
-    
+
         this.mouseDownColor();
         this.rows.push(newRow);
 
-        
         return newRow;
     }
+
     createLayer() {
         const table = document.createElement('table');
-    
+
         table.classList.add('table', 'border', 'border-collapse', 'm-1');
-    
+
         for (let i = 0; i < 8; i++) {
             const row = document.createElement('tr');
-    
+
             for (let j = 0; j < 8; j++) {
                 const cell = document.createElement('td');
-    
+
                 cell.classList.add('h-3', 'w-3', 'border', 'border-black', 'bg-primary-white');
-    
+
                 row.appendChild(cell);
             }
-    
+
             table.appendChild(row);
         }
-    
+
         return table;
     }
     createDeleteButton() {
         let deleteButton = document.createElement('i');
         deleteButton.classList.add('bi', 'bi-trash3-fill', 'text-2xl', 'font-semibold', 'mt-8', 'text-primary-white');
+
         return deleteButton;
     }
 
@@ -106,11 +102,11 @@ export class AnimationEditor {
             const colorPicker = document.getElementById("color-picker");
             let isMouseDown = false;
             let currentColor = colorPicker.value ? colorPicker.value : "#FF0000";
-    
+
             colorPicker.addEventListener("input", (event) => {
                 currentColor = event.target.value;
             });
-    
+
             cells.forEach((cell) => {
                 cell.addEventListener("mousedown", () => {
                     isMouseDown = true;
@@ -122,9 +118,9 @@ export class AnimationEditor {
                     }
                 });
             });
-    
+
             table.addEventListener("mouseup", () => {
-    
+
                 isMouseDown = false;
             });
         })
@@ -139,29 +135,27 @@ export class AnimationEditor {
 
     loadFromArray(anim_arr) {
         this.clearWindow();
-    
+
         for(let i = 0; i < anim_arr.length; i++) {
             let newRow = this.addNewRow();
             let tables = newRow.querySelectorAll('table');
-    
+
             // go through each table in a row
             for(let j = 0; j < tables.length; j++) {
                 let tableRows = tables[j].querySelectorAll('tr');
-    
+
                 // go through each row in a table
                 for (let k = 0; k <  tableRows.length ; k++) {
                     let cells = tableRows[tableRows.length-1-k].querySelectorAll('td');
-    
+
                     // go through each cell in row
                     for(let n = 0; n < cells.length; n++) {
-                        
+
                         cells[n].style.backgroundColor = anim_arr[i][j][k][n];
                     }
                 }
             }
         }
-    
-    
     }
 
     rgbToHex(rgb) {
@@ -200,8 +194,9 @@ export class AnimationEditor {
                     // go through each cell in row
                     for(let n = 0; n < cells.length; n++) {
                         let clrHex = this.rgbToHex(cells[n].style.backgroundColor);
-                        tableArray3D.push(clrHex); 
+                        tableArray3D.push(clrHex);
                     }
+
                     tableArray2D.push(tableArray3D);
                 }
 
@@ -216,23 +211,23 @@ export class AnimationEditor {
 
     colorCell(cell) {
         const colorPicker = document.getElementById('color-picker');
-    
+
         const color = colorPicker.value;
-    
+
         cell.style.backgroundColor = color;
     }
     getTimeout() {
         let timeoutElement = document.getElementById('timeout-picker');
         let timeout = timeoutElement.value;
-    
+
         if(timeout < 1) {
             timeout = 1;
         } else if (timeout > 10000) {
             timeout = 10000;
         }
-    
+
         timeoutElement.value = timeout;
-    
+
         return timeout;
     }
 };

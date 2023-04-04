@@ -14,14 +14,15 @@ io.on("connection", (socket) => {
     socket.on('disconnect', () => {
         console.log(`Client with ID: ${socket.id} disconnected`);
     });
-    
+
 });
 
 
 /* ===========which directories client requires ========================*/
 const dirNeededByUser = [
     'src',
-    'libs'
+    'libs',
+    'assets'
 ];
 
 dirNeededByUser.forEach((dir) => {
