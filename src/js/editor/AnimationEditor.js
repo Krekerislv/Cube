@@ -3,17 +3,19 @@
         rows - contains all rows
         editorPanel - parent element of editor
 
-    AddNewRow() add new row to editor
+    addNewRow() - add new row to editor
+    createLayer() 
     createDeleteButton() - adds delete button next to row
     deleteRow(rowID) - deletes row with rowID
-    mouseDownColor() - colors cells
+    mouseDownColor(), colorCell() - colors cells
     clearWindow() - deletes everything
+    getArray() - generates 4D array of animation
     loadFromArray(anim_arr) - loads animation frames from array
     rgbToHex() - converts rgb value to hex
+    getTimeout() - returns timeout set by user
     */
 export class AnimationEditor {
     rows = [];
-
     constructor(editorPanel, addNewRowBtn) {
         this.editorPanel = editorPanel;
         this.addNewRowBtn = addNewRowBtn;
@@ -32,6 +34,17 @@ export class AnimationEditor {
         this.addNewRowBtn.addEventListener("click", () => {
             this.addNewRow();
         });
+
+        addEventListener("beforeunload", (event) => {
+            window.localStorage.setItem('timeout', this.getTimeout());
+            window.localStorage.setItem('uploaded_file_contents', JSON.stringify(this.getArray()));
+        });
+
+        //if animation is present in local storage
+        var uploadedFileContents = localStorage.getItem('uploaded_file_contents');
+        var storageTimeout = localStorage.getItem('timeout');
+        if (storageTimeout) document.getElementById('timeout-picker').value = storageTimeout;
+        if (uploadedFileContents) this.loadFromArray(JSON.parse(uploadedFileContents));
     };
 
     addNewRow() {
