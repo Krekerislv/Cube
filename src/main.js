@@ -12,7 +12,7 @@ const defaultTimeout = 250;
 fetch(window.location.href + 'assets/default.lcaf')
     .then(response => response.text())
     .then(data => {
-        uploadedFileContents = uploadedFileContents ? JSON.parse(uploadedFileContents) : JSON.parse(data);
+        uploadedFileContents = uploadedFileContents && JSON.parse(uploadedFileContents).length > 0 ? JSON.parse(uploadedFileContents) : JSON.parse(data);
         timeout = timeout ? timeout : defaultTimeout;
         ledCube.startSimulation(uploadedFileContents, timeout);
         })
