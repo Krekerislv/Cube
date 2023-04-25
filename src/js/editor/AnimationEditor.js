@@ -1,21 +1,14 @@
-/*
-    class variables:
-        rows - contains all rows
-        editorPanel - parent element of editor
-
-    addNewRow() - add new row to editor
-    createLayer() 
-    createDeleteButton() - adds delete button next to row
-    deleteRow(rowID) - deletes row with rowID
-    mouseDownColor(), colorCell() - colors cells
-    clearWindow() - deletes everything
-    getArray() - generates 4D array of animation
-    loadFromArray(anim_arr) - loads animation frames from array
-    rgbToHex() - converts rgb value to hex
-    getTimeout() - returns timeout set by user
-    */
+/**
+ * Animation editor class
+ */
 export class AnimationEditor {
+    // Contains all rows
     rows = [];
+
+    /**
+     * @param editorPanel - editor panel
+     * @param addNewRowBtn - add new row button
+     */
     constructor(editorPanel, addNewRowBtn) {
         this.editorPanel = editorPanel;
         this.addNewRowBtn = addNewRowBtn;
@@ -35,18 +28,24 @@ export class AnimationEditor {
             this.addNewRow();
         });
 
+        // Add animation data to the local storage when the user exits or reloads the page
         addEventListener("beforeunload", (event) => {
             window.localStorage.setItem('timeout', this.getTimeout());
             window.localStorage.setItem('uploaded_file_contents', JSON.stringify(this.getArray()));
         });
 
-        //if animation is present in local storage
+        // If animation is present in local storage
         var uploadedFileContents = localStorage.getItem('uploaded_file_contents');
         var storageTimeout = localStorage.getItem('timeout');
         if (storageTimeout) document.getElementById('timeout-picker').value = storageTimeout;
         if (uploadedFileContents) this.loadFromArray(JSON.parse(uploadedFileContents));
     };
 
+    /**
+     * Add new frame in the editor after "+" icon press
+     *
+     * @returns {HTMLDivElement}
+     */
     addNewRow() {
         let newRow = document.createElement('div');
         newRow.classList.add('flex', 'justify-center');
@@ -74,6 +73,11 @@ export class AnimationEditor {
         return newRow;
     }
 
+    /**
+     * Creates a single layer of the frame for the animation
+     *
+     * @returns {HTMLTableElement}
+     */
     createLayer() {
         const table = document.createElement('table');
 
@@ -95,6 +99,12 @@ export class AnimationEditor {
 
         return table;
     }
+
+    /**
+     * Creates a delete button
+     *
+     * @returns {HTMLElement}
+     */
     createDeleteButton() {
         let deleteButton = document.createElement('i');
         deleteButton.classList.add('bi', 'bi-trash3-fill', 'text-2xl', 'font-semibold', 'mt-8', 'text-primary-white');
@@ -102,12 +112,20 @@ export class AnimationEditor {
         return deleteButton;
     }
 
+    /**
+     * Deletes the selected row
+     *
+     * @param row - row DOM element
+     */
     deleteRow(row) {
         row.remove();
         //remove from rows
         this.rows.splice(this.rows.indexOf(row),1);
     }
 
+    /**
+     * Adds color to the table cells on the mouse down
+     */
     mouseDownColor () {
         const tables = document.querySelectorAll("table");
         tables.forEach((table) => {
@@ -139,6 +157,9 @@ export class AnimationEditor {
         })
     }
 
+    /**
+     * Removes all of the frames in the animation
+     */
     clearWindow() {
         for (let row of this.rows) {
            row.remove();
@@ -146,6 +167,11 @@ export class AnimationEditor {
         this.rows.length = 0;
     }
 
+    /**
+     * Loads an animation from array. Used to load data from a file or local storage
+     *
+     * @param anim_arr - animation array
+     */
     loadFromArray(anim_arr) {
         this.clearWindow();
 
@@ -171,6 +197,12 @@ export class AnimationEditor {
         }
     }
 
+    /**
+     * Convert RGB value to HEX
+     *
+     * @param rgb - RGB color
+     * @returns {string} - return empty string or hex value
+     */
     rgbToHex(rgb) {
         let rgbValues = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
         if (rgbValues) {
@@ -184,7 +216,11 @@ export class AnimationEditor {
         }
     }
 
-    // Return a 4D array that represents each cell of 3D cube in time
+    /**
+     * Creates the 4D animation array
+     *
+     * @returns {*[]} - Return a 4D array that represents each cell of 3D cube in time
+     */
     getArray() {
 
         let tableArray = [];
@@ -222,6 +258,11 @@ export class AnimationEditor {
         return tableArray;
     }
 
+    /**
+     * Color a cell
+     *
+     * @param cell - layer cell (represent a LED)
+     */
     colorCell(cell) {
         const colorPicker = document.getElementById('color-picker');
 
@@ -229,6 +270,12 @@ export class AnimationEditor {
 
         cell.style.backgroundColor = color;
     }
+
+    /**
+     * Get timeout for the frame duration
+     *
+     * @returns {number} - timeout value
+     */
     getTimeout() {
         let timeoutElement = document.getElementById('timeout-picker');
         let timeout = timeoutElement.value;

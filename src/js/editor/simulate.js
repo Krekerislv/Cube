@@ -1,31 +1,108 @@
 import { LEDCube } from '../cube.js';
 import { AnimationEditor } from './AnimationEditor.js';
 
+/**
+ * Single LED size
+ *
+ * @type {number}
+ */
 const ledSize = 1;
+
+/**
+ * LED count in a row or column
+ *
+ * @type {number}
+ */
 const cubeDim = 8;
+
+/**
+ * Spacing between the LEDs
+ *
+ * @type {number}
+ */
 const spacing = 4;
 
+/**
+ * Popup width
+ *
+ * @type {number}
+ */
 const popupWidth = window.innerWidth / 2;
+
+/**
+ * Popup height
+ *
+ * @type {number}
+ */
 const popupHeight = window.innerHeight / 2;
 
-// html objects:
+/**
+ * Start simulation button element
+ *
+ * @type {HTMLElement}
+ */
 const startSimulationButton = document.getElementById('simulate-action');
+
+/**
+ * Stop simulation button element
+ * @type {HTMLElement}
+ */
 const stopSimulationButton = document.getElementById("stop-simulation");
+
+/**
+ * Export button element
+ *
+ * @type {HTMLElement}
+ */
 const btn_export = document.getElementById("export_anim");
-const input_import_anim = document.getElementById("lcaf_upload"); //import
+
+/**
+ * Import button element
+ *
+ * @type {HTMLElement}
+ */
+const input_import_anim = document.getElementById("lcaf_upload");
+
+/**
+ * Simulation section element
+ *
+ * @type {HTMLElement}
+ */
 const simulationSection = document.getElementById('simulation');
+
+/**
+ * Popup button element
+ *
+ * @type {HTMLElement}
+ */
 const popupButton = document.getElementById('open-popup');
+
+/**
+ * Simulation popup element
+ *
+ * @type {HTMLElement}
+ */
 const simulationPopup = document.getElementById('simulation-popup');
 
+/**
+ * Add new row button element
+ *
+ * @type {HTMLElement}
+ */
 const addNewRowBtn = document.getElementById("btn_addNewRow");
+
+/**
+ * Editor panel element
+ *
+ * @type {HTMLElement}
+ */
 const editorPanel = document.getElementById("row-section");
 
 var animationEditor = new AnimationEditor(editorPanel, addNewRowBtn);
-
-var ledCube = new LEDCube(cubeDim,ledSize,spacing,popupWidth,popupHeight);
-
+var ledCube = new LEDCube(cubeDim, ledSize, spacing, popupWidth, popupHeight);
 simulationSection.appendChild( ledCube.renderer.domElement );
 
+// Toggle popup
 popupButton.addEventListener('click', () => {
     if (simulationPopup.classList.contains("hidden")) {
         simulationPopup.classList.remove('hidden');
@@ -34,14 +111,17 @@ popupButton.addEventListener('click', () => {
     }
 });
 
+// Start simulation
 startSimulationButton.addEventListener('click', () => {
     ledCube.startSimulation( animationEditor.getArray(), animationEditor.getTimeout());
 });
 
+// Stop simulation
 stopSimulationButton.addEventListener("click", (e) => {
     ledCube.stopSimulation();
 });
 
+// Export simulation file with .lcaf extension
 btn_export.addEventListener('click', (e) => {
 
     let arr2export = JSON.stringify(animationEditor.getArray());
@@ -56,9 +136,12 @@ btn_export.addEventListener('click', (e) => {
     a.click();
 });
 
+// Import animation
 input_import_anim.addEventListener("click", () => {
     input_import_anim.value = null;
 });
+
+// When imported animation changes, read the uploaded file and update the local storage
 input_import_anim.addEventListener('change', (e) => {
     let file = e.target.files[0];
     const reader = new FileReader();
