@@ -17,9 +17,18 @@ import { OrbitControls } from "../../libs/three.js/examples/jsm/controls/OrbitCo
         startSimulation() - starts infinite simulation loop with given timeout and 4D array
 */
 export class LEDCube {
+    /**
+     * Initialize parameters and functions
+     *
+     * @param cubeDim - cube dimensions. Total led count = cubeDim^3
+     * @param ledSize - size of each LED (cube's edge) simulated
+     * @param spacing - spacing between each led. If value is too small, cubes can overlap
+     * @param windowWidth - renderer's width
+     * @param windowHeight - renderer's height
+     */
     constructor(cubeDim, ledSize, spacing, windowWidth, windowHeight) {
         this.scene = new THREE.Scene();
-        this.renderer = new THREE.WebGLRenderer(); //create a renderer
+        this.renderer = new THREE.WebGLRenderer();
         this.cubeDim = cubeDim;
         this.ledSize = ledSize;
         this.spacing = spacing;
@@ -29,29 +38,32 @@ export class LEDCube {
         this.init();
     }
 
+    /**
+     * Creates cube and sets default values
+     */
     init() {
-        //set bacground color to sky blue
+        // Set background color to sky blue
         this.scene.background = new THREE.Color("#87ceeb");
 
-        //initialize perspective camera
+        // Initialize perspective camera
         this.camera = new THREE.PerspectiveCamera( 75, this.windowWidth / this.windowHeight, 0.1, 1000 );
 
         this.camera.position.x = -10;
         this.camera.position.y = 35;
         this.camera.position.z = 40;
 
-        //apply updated values to camera
+        // Apply updated values to camera
         this.camera.updateProjectionMatrix();
 
-        //add camera to scene
+        // Add camera to scene
         this.scene.add(this.camera);
 
         this.renderer.setSize( this.windowWidth, this.windowHeight);
 
-        //these coeficients allow
+        // These coefficients allow
         const widthCoef = window.innerWidth / this.windowWidth;
 
-        //smooth scaling if renderer's parent is some element with size <= window
+        // Smooth scaling if renderer's parent is some element with size <= window
         const heightCoef = window.innerHeight / this.windowHeight;
 
         addEventListener("resize", (event) => {
@@ -60,20 +72,20 @@ export class LEDCube {
             this.camera.updateProjectionMatrix();
         });
 
-        //setup camera controls
+        // Setup camera controls
         this.controls = new OrbitControls( this.camera, this.renderer.domElement );
 
-        //focus camera on center of LED cube
+        // Focus camera on center of LED cube
         this.controls.target.set(this.spacing * (this.cubeDim - 1) / 2, this.spacing * (this.cubeDim - 1) / 2, this.spacing * (this.cubeDim - 1) / 2);
         this.controls.update();
 
-        //create and add led cube to the scene
+        // Create and add led cube to the scene
         this.ledGeometry = new THREE.BoxGeometry( this.ledSize, this.ledSize, this.ledSize);
-        var cubeGroup = new THREE.Group();
+        let cubeGroup = new THREE.Group();
 
-        var x = 0;
-        var y = 0;
-        var z = 0;
+        let x = 0;
+        let y = 0;
+        let z = 0;
 
         for (let i =0; i < this.cubeDim; i++) {
             let tmpJ = [];
@@ -111,6 +123,12 @@ export class LEDCube {
         });
     }
 
+    /**
+     * Start simulation
+     *
+     * @param animArr - animation array
+     * @param timeout - timeout
+     */
     startSimulation(animArr, timeout) {
         if (this.generalInterval) {
             clearInterval(this.generalInterval);
@@ -142,13 +160,16 @@ export class LEDCube {
             if (i === animArr.length) i = 0;
         }
 
-        //lets drawSimulation use same variables as startSimulation()
+        // Lets drawSimulation use same variables as startSimulation()
         drawSimulation.apply();
         drawSimulation();
 
-        this.generalInterval = setInterval(drawSimulation, timeout); //loop
+        this.generalInterval = setInterval(drawSimulation, timeout); // Loop
     }
 
+    /**
+     * Stop simulation
+     */
     stopSimulation() {
         if (this.generalInterval) clearInterval(this.generalInterval);
     }
