@@ -128,7 +128,7 @@ btn_export.addEventListener('click', (e) => {
     let arr2export = JSON.stringify(animationEditor.getArray());
 
     let test = new PixelCubeToBinary(animationEditor.getArray());
-    test.saveBinaryFile('animation.bin');
+    test.saveBinaryFile('animation.gc');
 
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 
