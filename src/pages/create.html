@@ -56,10 +56,28 @@
         <div class="flex justify-center">
             <div class="mt-20 flex flex-col justify-center">
                 <div class="flex justify-center">
-                    <label for="color-picker" class="text-primary-white text-xl font-semibold">Select a color:</label>
+                    <label  for="color-picker" class="text-primary-white text-xl font-semibold">Select a color:</label>
                 </div>
                 <div class="flex justify-center w-full h-full">
-                    <input type="color" id="color-picker" name="color-picker" class="items-center w-12 h-12" value="#0000ff">
+                    <input type="color" id="color-picker" name="color-picker" class="items-center w-12 h-12" value="#FF0000" list="color-options" readonly>
+                    <datalist id="color-options">
+                        <option>#000000</option>
+                        <option>#0000FF</option>
+                        <option>#00FF00</option>
+                        <option>#00FFFF</option>
+                        <option>#FF0000</option>
+                        <option>#FF00FF</option>
+                        <option>#FFFF00</option>
+                        <option>#FFFFFF</option>
+                        <option>#000000</option>
+                        <option>#000055</option>
+                        <option>#005500</option>
+                        <option>#005555</option>
+                        <option>#550000</option>
+                        <option>#550055</option>
+                        <option>#555500</option>
+                        <option>#555555</option>
+                    </datalist>
                 </div>
                 <div class="flex justify-center">
                     <label for="timeout-picker" class="text-primary-white text-xl font-semibold">Select timeout ( 1- 10000 ms)</label>
@@ -75,5 +93,6 @@
     <div id="simulation"></div>
 </div>
 <script src="../../src/js/editor/simulate.js" type="module"></script>
+<script src="../js/converter/PixelCubeToBinary.js" type="module"></script>
 </body>
 </html>
