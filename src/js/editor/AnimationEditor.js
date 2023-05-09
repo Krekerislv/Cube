@@ -284,6 +284,7 @@ export class AnimationEditor {
      * @returns {number} - timeout value
      */
     getTimeout() {
+        /*
         let timeoutElement = document.getElementById('timeout-picker');
         let timeout = timeoutElement.value;
 
@@ -296,5 +297,7 @@ export class AnimationEditor {
         timeoutElement.value = timeout;
 
         return timeout;
+        */
+       return 200;
     }
 };

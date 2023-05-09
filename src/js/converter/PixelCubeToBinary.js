@@ -7,8 +7,8 @@ export class PixelCubeToBinary {
     mapPixelToBinary(pixelValue) {
         const pixelMap = {
             '#000000': '00',
-            '#0000FF': '01',
-            '#00FF00': '02',
+            '#0000FF': '02',
+            '#00FF00': '01',
             '#00FFFF': '03',
             '#FF0000': '04',
             '#FF00FF': '05',
@@ -32,9 +32,9 @@ export class PixelCubeToBinary {
         this.pixelCube.forEach((data) => {
             const frame = [];
             for (let x = 0; x < 8; x++) {
-                for (let y = 0; y < 8; y++) {
-                    for (let z = 7; z >= 0; z--) {
-                        const pixelValue = data[x][y][z];
+                for (let y = 7; y >= 0; y--) {
+                    for (let z = 0; z < 8; z++) {
+                        const pixelValue = data[y][x][z]; // xyz, zyx, yzx, yxz,| zxy, xzy
                         const binaryPixel = this.mapPixelToBinary(pixelValue.toUpperCase());
                         frame.push(binaryPixel);
                     }
@@ -121,27 +121,5 @@ export class PixelCubeToBinary {
             })
             .catch(error => console.error(error))
 
-
-
-        /*
-        const binaryPixels = this.getBinaryPixels();
-
-        // Convert binary pixels to a Uint8Array
-        const byteCharacters = binaryPixels.join('');
-        const byteNumbers = new Array(byteCharacters.length / 2);
-        for (let i = 0; i < byteCharacters.length; i += 2) {
-            byteNumbers[i / 2] = parseInt(byteCharacters.substr(i, 2), 16);
-        }
-        const byteArray = new Uint8Array(byteNumbers);
-
-        // Create a Blob object from the Uint8Array
-        const blob = new Blob([byteArray], { type: 'application/octet-stream' });
-
-        // Create a link and click it to download the file
-        const link = document.createElement('a');
-        link.href = window.URL.createObjectURL(blob);
-        link.download = fileName;
-        link.click();
-        */
     }
 }
