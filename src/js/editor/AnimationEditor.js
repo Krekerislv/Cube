@@ -23,9 +23,16 @@ export class AnimationEditor {
         this.getArray = this.getArray.bind(this);
         this.colorCell = this.colorCell.bind(this);
         this.getTimeout = this.getTimeout.bind(this);
+        this.addedRows = document.getElementById('row-section').childElementCount;
 
         this.addNewRowBtn.addEventListener("click", () => {
-            this.addNewRow();
+            this.addedRows = document.getElementById('row-section').childElementCount;
+            if(this.addedRows < 15) {
+                this.addNewRow();
+            } else {
+                alert('You can only add up to 15 frames');
+            }
+
         });
 
         // Add animation data to the local storage when the user exits or reloads the page
