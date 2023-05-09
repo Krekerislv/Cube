@@ -1,5 +1,6 @@
 import { LEDCube } from '../cube.js';
 import { AnimationEditor } from './AnimationEditor.js';
+import { PixelCubeToBinary } from '../converter/PixelCubeToBinary.js';
 
 /**
  * Single LED size
@@ -125,6 +126,10 @@ stopSimulationButton.addEventListener("click", (e) => {
 btn_export.addEventListener('click', (e) => {
 
     let arr2export = JSON.stringify(animationEditor.getArray());
+
+    let test = new PixelCubeToBinary(animationEditor.getArray());
+    test.saveBinaryFile('animation.bin');
+
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 
     let url = URL.createObjectURL(blob_obj)
