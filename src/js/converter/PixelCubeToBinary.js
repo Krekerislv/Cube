@@ -32,8 +32,7 @@ export class PixelCubeToBinary {
         this.pixelCube.forEach((data) => {
             for (let x = 0; x < 8; x++) {
                 for (let y = 0; y < 8; y++) {
-                    for (let z = 0; z < 8; z++) {
-
+                    for (let z = 7; z >= 0; z--) {
                         const pixelValue = data[x][y][z];
                         const binaryPixel = this.mapPixelToBinary(pixelValue.toUpperCase());
                         binaryPixels.push(binaryPixel);
