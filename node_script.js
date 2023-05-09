@@ -1,21 +1,9 @@
 const path = require('path');
 const express = require("express");
 const { createServer } = require("http");
-const { Server } = require("socket.io");
 
 const app = express();
 const httpServer = createServer(app);
-const io = new Server(httpServer);
-
-
-io.on("connection", (socket) => {
-    console.log(`Client with ID ${socket.id} connected`);
-
-    socket.on('disconnect', () => {
-        console.log(`Client with ID: ${socket.id} disconnected`);
-    });
-
-});
 
 
 /* ===========which directories client requires ========================*/
