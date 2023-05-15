@@ -139,6 +139,7 @@ export class AnimationEditor {
             const cells = table.querySelectorAll("td");
             const colorPicker = document.getElementById("color-picker");
             let isMouseDown = false;
+            let isRightClickDown = false;
             let currentColor = colorPicker.value ? colorPicker.value : "#FF0000";
 
             colorPicker.addEventListener("input", (event) => {
@@ -147,19 +148,29 @@ export class AnimationEditor {
 
             cells.forEach((cell) => {
                 cell.addEventListener("mousedown", () => {
-                    isMouseDown = true;
-                    cell.style.backgroundColor = currentColor;
+                    if (event.button === 2) { // Right mouse button
+                        isRightClickDown = true;
+                        cell.style.backgroundColor = "";
+                    } else {
+                        isMouseDown = true;
+                        cell.style.backgroundColor = currentColor;
+                    }
                 });
                 cell.addEventListener("mouseover", () => {
                     if (isMouseDown) {
                         cell.style.backgroundColor = currentColor;
+                    } else if(isRightClickDown) {
+                        cell.style.backgroundColor = "";
                     }
+                });
+                cell.addEventListener("contextmenu", (event) => {
+                    event.preventDefault(); // Prevent the default context menu
                 });
             });
 
             table.addEventListener("mouseup", () => {
-
                 isMouseDown = false;
+                isRightClickDown = false;
             });
         })
     }
