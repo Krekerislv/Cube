@@ -46,9 +46,13 @@
                 <i class="bi bi-arrow-down-left-square-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Open simulation popup" id="open-popup"></i>
                 <i class="bi bi-play-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Start simulation" id="simulate-action"></i>
                 <i class="bi bi-square-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="End simulation" id="stop-simulation"></i>
-                <i class="bi bi-file-arrow-down-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Export animatiom" id="export_anim"></i>
+
                 <label for="lcaf_upload" class="bi bi-file-arrow-up-fill text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Import animation" id="import_anim"></label>
                 <input id="lcaf_upload" type="file" accept=".lcaf" style="display:none;">
+
+                <i class="bi bi-disc text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Save animation" id="save_anim"></i>
+                <i class="bi bi-file-arrow-down text-primary-gray-dark font-bold text-2xl cursor-pointer" title="Export .gc file" id="export_anim"></i>
+                
             </div>
         </div>
     </div>
@@ -61,7 +65,6 @@
                 <div class="flex justify-center w-full h-full">
                     <input type="color" id="color-picker" name="color-picker" class="items-center w-12 h-12" value="#FF0000" list="color-options" readonly>
                     <datalist id="color-options">
-                        <option>#FFFFFF</option> <!--Add small eresaer icon here somehow..-->
                         <option>#0000FF</option>
                         <option>#00FF00</option>
                         <option>#00FFFF</option>
@@ -79,10 +82,10 @@
                         <option>#555555</option>
                     </datalist>
                 </div>
-                <div class="flex justify-center hidden">
-                    <label for="timeout-picker" class="text-primary-white text-xl font-semibold">Select timeout ( 1- 10000 ms)</label>
+                <div class="flex justify-center">
+                    <label for="timeout-picker" class="text-primary-white text-xl font-semibold">Select timeout ( 1 - 1000 ms)</label>
                 </div>
-                <div class="flex justify-center w-full h-full hidden">
+                <div class="flex justify-center w-full h-full">
                     <input type="number" id="timeout-picker" name="timeout-picker" class="items-center" value="200" min="1" max="10000">
                 </div>
             </div>

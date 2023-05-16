@@ -58,6 +58,13 @@ const stopSimulationButton = document.getElementById("stop-simulation");
 const btn_export = document.getElementById("export_anim");
 
 /**
+ * Save button element
+ *
+ * @type {HTMLElement}
+ */
+const btn_save_anim = document.getElementById("save_anim");
+
+/**
  * Import button element
  *
  * @type {HTMLElement}
@@ -124,11 +131,12 @@ stopSimulationButton.addEventListener("click", (e) => {
 
 // Export simulation file with .lcaf extension
 btn_export.addEventListener('click', (e) => {
+    let animation = new PixelCubeToBinary(animationEditor.getArray());
+    animation.saveBinaryFile('animation.gc', animationEditor.getTimeout());
+});
 
+btn_save_anim.addEventListener('click', (e) => {
     let arr2export = JSON.stringify(animationEditor.getArray());
-
-    let test = new PixelCubeToBinary(animationEditor.getArray());
-    test.saveBinaryFile('animation.gc');
 
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 
