@@ -121,7 +121,7 @@ popupButton.addEventListener('click', () => {
 
 // Start simulation
 startSimulationButton.addEventListener('click', () => {
-    ledCube.startSimulation( animationEditor.getArray(), animationEditor.getTimeout());
+    ledCube.startSimulation( animationEditor.getArray(null), animationEditor.getTimeout());
 });
 
 // Stop simulation
@@ -136,7 +136,7 @@ btn_export.addEventListener('click', (e) => {
 });
 
 btn_save_anim.addEventListener('click', (e) => {
-    let arr2export = JSON.stringify(animationEditor.getArray());
+    let arr2export = JSON.stringify(animationEditor.getArray(null));
 
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 
