@@ -10,6 +10,30 @@
 </head>
 <script src="../../src/js/sidebar/sidebar.js"></script>
 <body class="block overflow-hidden bg-primary-black">
+
+<style>
+    .input-as-text {
+        border: none;
+        background-color: transparent;
+        padding: 0;
+        font-size: inherit;
+        color: inherit;
+        outline: none;
+        cursor: text;
+        width: auto;
+        font-size: 1.5em;
+        color: white;  
+    }
+
+    .input-as-text:hover {
+        background-color: transparent;
+        cursor: auto;
+    }
+
+    .input-as-text::placeholder {
+        color:white;
+    }
+</style>
 <div class="grid grid-cols-5 gap-4">
     <div class="col-span-1">
         <div class="absolute z-10 text-primary-blue-light top-2 left-2">
@@ -37,7 +61,7 @@
     </div>
     <div id="editor-panel" class="col-span-3">
         <div id="heading" class="flex justify-center mt-5">
-            <h1 class="text-primary-white text-2xl">Editor</h1>
+            <input type="text" class="input-as-text" id="animation_name"  placeholder="Animation" required>
         </div>
         <div class="h-[85vh] mt-3 shadow-lg flex">
             <div class="h-full w-[95%] bg-primary-gray-mid overflow-y-auto" id="row-section"></div>
