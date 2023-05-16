@@ -130,6 +130,11 @@ function getAnimationName() {
     return anim_name
 }
 
+// Set animation name in local storage
+animationNameInputField.addEventListener("change", (event) =>{
+    window.localStorage.setItem('animation_name', getAnimationName());
+});
+
 // Toggle popup
 popupButton.addEventListener('click', () => {
     if (simulationPopup.classList.contains("hidden")) {
@@ -190,4 +195,7 @@ input_import_anim.addEventListener('change', (e) => {
 
    // Set animation name to file name
    animationNameInputField.value = file.name.split(".")[0];
+
+   // Update animation name in local storage
+   window.localStorage.setItem('animation_name', getAnimationName());
 });

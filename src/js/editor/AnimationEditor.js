@@ -1,6 +1,8 @@
 /**
  * Animation editor class
  */
+
+const FRAME_LIMIT = 16;
 import {LEDCube} from "../cube.js";
 
 export class AnimationEditor {
@@ -32,10 +34,10 @@ export class AnimationEditor {
 
         this.addNewRowBtn.addEventListener("click", () => {
             this.addedRows = document.getElementById('row-section').childElementCount;
-            if(this.addedRows < 15) {
+            if(this.addedRows < FRAME_LIMIT) {
                 this.addNewRow();
             } else {
-                alert('You can only add up to 15 frames');
+                alert(`You can only add up to ${FRAME_LIMIT} frames`);
             }
 
         });
@@ -49,8 +51,10 @@ export class AnimationEditor {
         // If animation is present in local storage
         var uploadedFileContents = localStorage.getItem('uploaded_file_contents');
         var storageTimeout = localStorage.getItem('timeout');
+        var animation_name = localStorage.getItem('animation_name');
         if (storageTimeout) document.getElementById('timeout-picker').value = storageTimeout;
         if (uploadedFileContents) this.loadFromArray(JSON.parse(uploadedFileContents));
+        if (animation_name) document.getElementById("animation_name").value = animation_name;
     };
 
     /**
