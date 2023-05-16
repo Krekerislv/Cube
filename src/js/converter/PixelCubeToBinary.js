@@ -47,7 +47,7 @@ export class PixelCubeToBinary {
     }
 
     // Save binary pixels to a file
-    saveBinaryFile(fileName) {
+    saveBinaryFile(fileName, timeout) {
 
         function compareBuffers(a, b) {
             if (a.length !== b.length) {
@@ -70,27 +70,45 @@ export class PixelCubeToBinary {
         fetch(templateName)
             .then(response => response.arrayBuffer())
             .then(arrayBuffer => {
+                // Get animation binary array and get frame count
+                const binaryPixels = this.getBinaryPixels();
+                const frameCount = binaryPixels.length;
+
                 const buffer = new Uint8Array(arrayBuffer);
                 // Index elements like: buffer[5].toString(16) (returns ff)
             
                 // Init buffer of size 512 filled with 00 (empty animation frame)
                 const blankAnim = new Uint8Array(512);
                 blankAnim.fill(0x00);
-                
+
+                // Init buffer of size 2 that contains default timeout value (200)
+                const defaultTimeoutBuf = new Uint8Array(2);
+
+                defaultTimeoutBuf[0] = 0xC8;   // Set the lower byte in the buffer
+                defaultTimeoutBuf[1] = 0x00;  // Set the higher byte in the buffer
+
                 // This array will store all indexes of animation frame start
-                let matches = [];
+                let frame_matches = [];
+                let timeout_matches = [];
             
                 for (let i = 0; i < buffer.length; i++) {
-                    let temp_buffer = buffer.subarray(i, i+512);
+                    let temp_buffer_frames = buffer.subarray(i, i+512);
+                    let temp_buffer_timeout = buffer.subarray(i, i+2);
               
-                    if (compareBuffers(temp_buffer, blankAnim)) {
-                      matches.push(i);
+                    if (compareBuffers(temp_buffer_frames, blankAnim)) {
+                      frame_matches.push(i);
                     }
-                  }
-              
-                console.log(matches);
 
-                const binaryPixels = this.getBinaryPixels();
+                    if (compareBuffers(temp_buffer_timeout, defaultTimeoutBuf)) {
+                        if (timeout_matches.length < frameCount) {
+                            timeout_matches.push(i);
+                        } else {
+                            console.log("How did this happen?");
+                        }
+                        
+                    }
+                }
+
 
                 // Convert binary pixels to a Uint8Array
                 let k = 0; // Matches array index
@@ -104,9 +122,23 @@ export class PixelCubeToBinary {
                     const byteArray = new Uint8Array(byteNumbers);
                 
                     // Replace blank animation
-                    buffer.set(byteArray, matches[k]);
+                    buffer.set(byteArray, frame_matches[k]);
                     k++;
                 });
+
+                // Create a buffer from user set timeout (seperate uint16 value into 2 uint8)
+                const userTimeoutBuf = new Uint8Array(2)
+                const highByte = (timeout >> 8) & 0xFF;
+                const lowByte = timeout & 0xFF;
+                userTimeoutBuf[0] = lowByte;
+                userTimeoutBuf[1] = highByte;
+                
+
+                // Set timeout values
+                timeout_matches.forEach((match_index) => {
+                    buffer.set(userTimeoutBuf, match_index);
+                });
+                
                 
                 // Create a Blob object from the Uint8Array
                 const blob = new Blob([buffer], { type: 'application/octet-stream' });
