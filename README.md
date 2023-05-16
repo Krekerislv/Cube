@@ -60,6 +60,7 @@ After saving .gc file, user must compile animation using ./Chinese software/RGB_
 ![img_6.png](assets/img_6.png)
 
 After pressing the button a new window will appear letting user know how much of microcontroller's memory is occupied:
+
 ![img_7.png](assets/img_7.png)
 
 Now an update.hex file has been generated at ./Chinese software. Assuming LED Cube is connected to computer properly, user can upload the code with ./Chinese software/Download_Tool.exe by pressing the button marked in picture:
