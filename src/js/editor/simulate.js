@@ -100,6 +100,13 @@ const simulationPopup = document.getElementById('simulation-popup');
 const addNewRowBtn = document.getElementById("btn_addNewRow");
 
 /**
+ * Animation name input field
+ *
+ * @type {HTMLElement}
+ */
+const animationNameInputField = document.getElementById("animation_name")
+
+/**
  * Editor panel element
  *
  * @type {HTMLElement}
@@ -109,6 +116,19 @@ const editorPanel = document.getElementById("row-section");
 var animationEditor = new AnimationEditor(editorPanel, addNewRowBtn);
 var ledCube = new LEDCube(cubeDim, ledSize, spacing, popupWidth, popupHeight);
 simulationSection.appendChild( ledCube.renderer.domElement );
+
+function getAnimationName() {
+    let anim_name = animationNameInputField.value;
+    if (anim_name === "") {
+        anim_name = "Animation";
+    }
+
+    // Remove illegal (for file name) charachters if present
+    const illegalCharacters = /[\\/:"*?<>|]/g;
+    anim_name = anim_name.replace(illegalCharacters, '');
+
+    return anim_name
+}
 
 // Toggle popup
 popupButton.addEventListener('click', () => {
@@ -132,7 +152,7 @@ stopSimulationButton.addEventListener("click", (e) => {
 // Export simulation file with .lcaf extension
 btn_export.addEventListener('click', (e) => {
     let animation = new PixelCubeToBinary(animationEditor.getArray());
-    animation.saveBinaryFile('animation.gc', animationEditor.getTimeout());
+    animation.saveBinaryFile(getAnimationName() + '.gc', animationEditor.getTimeout());
 });
 
 btn_save_anim.addEventListener('click', (e) => {
@@ -144,8 +164,7 @@ btn_save_anim.addEventListener('click', (e) => {
     let a = document.createElement('a')
     a.setAttribute('href', url)
 
-    let fileName = "Anim_" + new Date().toISOString() + ".lcaf";
-    a.setAttribute('download', fileName);
+    a.setAttribute('download', getAnimationName() + ".lcaf");
     a.click();
 });
 
@@ -168,4 +187,7 @@ input_import_anim.addEventListener('change', (e) => {
     });
 
    reader.readAsText(file);
+
+   // Set animation name to file name
+   animationNameInputField.value = file.name.split(".")[0];
 });
