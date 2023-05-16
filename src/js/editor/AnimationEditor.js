@@ -339,20 +339,19 @@ export class AnimationEditor {
      * @returns {number} - timeout value
      */
     getTimeout() {
-        /*
+        
         let timeoutElement = document.getElementById('timeout-picker');
         let timeout = timeoutElement.value;
 
         if(timeout < 1) {
             timeout = 1;
-        } else if (timeout > 10000) {
-            timeout = 10000;
+        } else if (timeout > 1000) {
+            timeout = 1000;
         }
 
         timeoutElement.value = timeout;
 
         return timeout;
-        */
-       return 200;
+        
     }
 };
