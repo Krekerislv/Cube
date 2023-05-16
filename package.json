@@ -1,18 +1,16 @@
 {
   "name": "led_cube",
-  "version": "0.0.1",
+  "version": "0.5.7",
   "description": "LED Cube visualizer",
   "main": "index.js",
   "scripts": {
     "postinstall": "npx tailwind -i ./src/css/main.css -o ./src/css/styles.css",
     "start": "node node_script.js"
   },
-  "author": "K.A Vasermans, M. Čudars, A. Skrastiņš, E. Jančevskis, D. Boroduļins",
+  "author": "K.A Vasermans, M. Čudars, A. Skrastiņš, D. Boroduļins",
   "license": "ISC",
   "dependencies": {
-    "buffer": "^6.0.3",
     "express": "*",
-    "socket.io": "*",
     "tailwindcss": "^3.2.7"
   }
 }
