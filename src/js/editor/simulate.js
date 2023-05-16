@@ -114,7 +114,7 @@ popupButton.addEventListener('click', () => {
 
 // Start simulation
 startSimulationButton.addEventListener('click', () => {
-    ledCube.startSimulation( animationEditor.getArray(), animationEditor.getTimeout());
+    ledCube.startSimulation( animationEditor.getArray(null), animationEditor.getTimeout());
 });
 
 // Stop simulation
@@ -125,10 +125,10 @@ stopSimulationButton.addEventListener("click", (e) => {
 // Export simulation file with .lcaf extension
 btn_export.addEventListener('click', (e) => {
 
-    let arr2export = JSON.stringify(animationEditor.getArray());
+    let arr2export = JSON.stringify(animationEditor.getArray(null));
 
-    let test = new PixelCubeToBinary(animationEditor.getArray());
-    test.saveBinaryFile('animation.gc');
+    let binaryFile = new PixelCubeToBinary(animationEditor.getArray(null));
+    binaryFile.saveBinaryFile('animation.gc');
 
     let blob_obj = new Blob([arr2export], {type: "application/json"});
 

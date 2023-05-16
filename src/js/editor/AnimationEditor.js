@@ -1,6 +1,8 @@
 /**
  * Animation editor class
  */
+import {LEDCube} from "../cube.js";
+
 export class AnimationEditor {
     // Contains all rows
     rows = [];
@@ -24,6 +26,9 @@ export class AnimationEditor {
         this.colorCell = this.colorCell.bind(this);
         this.getTimeout = this.getTimeout.bind(this);
         this.addedRows = document.getElementById('row-section').childElementCount;
+        this.frameSimulationSectionWidth = document.getElementById('right-sidebar').clientWidth * 0.9;
+        this.frameSimulationSectionHeight = this.frameSimulationSectionWidth * 0.75;
+        this.ledCubeFrame = new LEDCube(8, 1, 4, this.frameSimulationSectionWidth, this.frameSimulationSectionHeight)
 
         this.addNewRowBtn.addEventListener("click", () => {
             this.addedRows = document.getElementById('row-section').childElementCount;
@@ -38,7 +43,7 @@ export class AnimationEditor {
         // Add animation data to the local storage when the user exits or reloads the page
         addEventListener("beforeunload", (event) => {
             window.localStorage.setItem('timeout', this.getTimeout());
-            window.localStorage.setItem('uploaded_file_contents', JSON.stringify(this.getArray()));
+            window.localStorage.setItem('uploaded_file_contents', JSON.stringify(this.getArray(null)));
         });
 
         // If animation is present in local storage
@@ -70,7 +75,14 @@ export class AnimationEditor {
         deleteButton.addEventListener('click', () => {
             this.deleteRow(newRow);
         });
-        newRow.appendChild(deleteButton);
+        let framePlayButton = this.framePlaySection(rowId)
+
+        let actionContainer = document.createElement('div');
+        actionContainer.classList.add('flex', 'flex-col');
+        actionContainer.appendChild(framePlayButton);
+        actionContainer.appendChild(deleteButton);
+
+        newRow.appendChild(actionContainer);
 
         this.editorPanel.appendChild(newRow);
 
@@ -78,6 +90,21 @@ export class AnimationEditor {
         this.rows.push(newRow);
 
         return newRow;
+    }
+
+    framePlaySection(rowId) {
+        const frameSimulation = document.getElementById('frame-simulation');
+        const framePlayButton = this.createFramePlayButton();
+        framePlayButton.setAttribute('row-id', rowId);
+        frameSimulation.appendChild(this.ledCubeFrame.renderer.domElement)
+
+        framePlayButton.addEventListener('click', () => {
+            let animationModification = this.getArray(framePlayButton.getAttribute('row-id')).filter(item => Array.isArray(item) && item.length > 0);
+            this.ledCubeFrame.startSimulation(animationModification, this.getTimeout());
+        });
+
+        return framePlayButton;
+
     }
 
     /**
@@ -114,9 +141,21 @@ export class AnimationEditor {
      */
     createDeleteButton() {
         let deleteButton = document.createElement('i');
-        deleteButton.classList.add('bi', 'bi-trash3-fill', 'text-2xl', 'font-semibold', 'mt-8', 'text-primary-white');
+        deleteButton.classList.add('bi', 'bi-trash3-fill', 'text-2xl', 'font-semibold', 'mt-1', 'text-primary-white');
 
         return deleteButton;
+    }
+
+    /**
+     * Creates a frame play buton
+     *
+     * @returns {HTMLElement}
+     */
+    createFramePlayButton() {
+        let playButton = document.createElement('i');
+        playButton.classList.add('bi', 'bi-play-fill', 'text-2xl', 'font-semibold', 'mt-4', 'text-primary-white');
+
+        return playButton;
     }
 
     /**
@@ -239,36 +278,41 @@ export class AnimationEditor {
      *
      * @returns {*[]} - Return a 4D array that represents each cell of 3D cube in time
      */
-    getArray() {
+    getArray(rowId) {
 
         let tableArray = [];
+
+        const skipRowCheck = !rowId;
 
         // go through all of the rows added in the editor
         for(let i = 0; i < this.rows.length; i++) {
             let tableRowArray = [];
             let tables = this.rows[i].querySelectorAll('table');
+            if(this.rows[i].id === rowId || skipRowCheck) {
 
-            // go through each table in a row
-            for(let j = 0; j < tables.length; j++) {
-                let tableArray2D = [];
-                let tableRows = tables[j].querySelectorAll('tr');
+                // go through each table in a row
+                for(let j = 0; j < tables.length; j++) {
+                    let tableArray2D = [];
+                    let tableRows = tables[j].querySelectorAll('tr');
 
-                // go through each row in a table
-                for (let k = tableRows.length-1; k >= 0; k--) {
-                    let tableArray3D = [];
-                    let cells = tableRows[k].querySelectorAll('td');
+                    // go through each row in a table
+                    for (let k = tableRows.length-1; k >= 0; k--) {
+                        let tableArray3D = [];
+                        let cells = tableRows[k].querySelectorAll('td');
 
-                    // go through each cell in row
-                    for(let n = 0; n < cells.length; n++) {
-                        let clrHex = this.rgbToHex(cells[n].style.backgroundColor);
-                        tableArray3D.push(clrHex);
+                        // go through each cell in row
+                        for(let n = 0; n < cells.length; n++) {
+                            let clrHex = this.rgbToHex(cells[n].style.backgroundColor);
+                            tableArray3D.push(clrHex);
+                        }
+
+                        tableArray2D.push(tableArray3D);
                     }
 
-                    tableArray2D.push(tableArray3D);
+                    tableRowArray.push(tableArray2D);
                 }
-
-                tableRowArray.push(tableArray2D);
             }
+
 
             tableArray.push(tableRowArray);
         }

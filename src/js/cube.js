@@ -142,10 +142,8 @@ export class LEDCube {
                 for (let l = 0; l < this.cubeDim; l++) {
 
                     for (let o = 0; o < this.cubeDim; o++) {
-
                         let ledColor = animArr[i][n][l][o]; //color for specific led
-
-                        if (ledColor == "") {
+                        if (ledColor === "") {
                             this.cubes[n][l][o].material.color.set("#ffffff");
                             this.cubes[n][l][o].material.opacity = 0.5;
                         } else {
