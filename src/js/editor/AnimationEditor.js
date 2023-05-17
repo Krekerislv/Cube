@@ -2,7 +2,7 @@
  * Animation editor class
  */
 
-const FRAME_LIMIT = 16;
+const FRAME_LIMIT = 150;
 import {LEDCube} from "../cube.js";
 
 export class AnimationEditor {
@@ -347,8 +347,8 @@ export class AnimationEditor {
         let timeoutElement = document.getElementById('timeout-picker');
         let timeout = timeoutElement.value;
 
-        if(timeout < 1) {
-            timeout = 1;
+        if(timeout < 10) {
+            timeout = 10;
         } else if (timeout > 1000) {
             timeout = 1000;
         }
