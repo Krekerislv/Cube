@@ -13,9 +13,10 @@ export class AnimationEditor {
      * @param editorPanel - editor panel
      * @param addNewRowBtn - add new row button
      */
-    constructor(editorPanel, addNewRowBtn) {
+    constructor(editorPanel, addNewRowBtn, dupl_last_row_btn) {
         this.editorPanel = editorPanel;
         this.addNewRowBtn = addNewRowBtn;
+        this.dupl_last_row_btn = dupl_last_row_btn;
         this.addNewRow = this.addNewRow.bind(this);
         this.createLayer = this.createLayer.bind(this);
         this.createDeleteButton = this.createDeleteButton.bind(this);
@@ -30,7 +31,7 @@ export class AnimationEditor {
         this.addedRows = document.getElementById('row-section').childElementCount;
         this.frameSimulationSectionWidth = document.getElementById('right-sidebar').clientWidth * 0.9;
         this.frameSimulationSectionHeight = this.frameSimulationSectionWidth * 0.75;
-        this.ledCubeFrame = new LEDCube(8, 1, 4, this.frameSimulationSectionWidth, this.frameSimulationSectionHeight)
+        this.ledCubeFrame = new LEDCube(8, 1, 4, this.frameSimulationSectionWidth, this.frameSimulationSectionHeight);
 
         this.addNewRowBtn.addEventListener("click", () => {
             this.addedRows = document.getElementById('row-section').childElementCount;
@@ -40,6 +41,29 @@ export class AnimationEditor {
                 alert(`You can only add up to ${FRAME_LIMIT} frames`);
             }
 
+        });
+
+        this.dupl_last_row_btn.addEventListener("click", () => {
+            console.log(`getting row with id: ${this.rows[this.rows.length-1].id}`)
+            let lastRowArray = this.getArray(this.rows[this.rows.length-1].id);
+            console.log(lastRowArray);
+            let newRow = this.addNewRow();
+            let tables = newRow.querySelectorAll('table');
+            // go through each table in a row
+            for(let j = 0; j < tables.length; j++) {
+                let tableRows = tables[j].querySelectorAll('tr');
+                
+                // go through each row in a table
+                for (let k = 0; k <  tableRows.length ; k++) {
+                    let cells = tableRows[tableRows.length-1-k].querySelectorAll('td');
+                    // go through each cell in row
+                    for(let n = 0; n < cells.length; n++) {
+                        
+                        cells[n].style.backgroundColor = lastRowArray[j][k][n];
+                    }
+                }
+            }
+            
         });
 
         // Add animation data to the local storage when the user exits or reloads the page
@@ -104,7 +128,7 @@ export class AnimationEditor {
 
         framePlayButton.addEventListener('click', () => {
             let animationModification = this.getArray(framePlayButton.getAttribute('row-id')).filter(item => Array.isArray(item) && item.length > 0);
-            this.ledCubeFrame.startSimulation(animationModification, this.getTimeout());
+            this.ledCubeFrame.startSimulation([animationModification], this.getTimeout());
         });
 
         return framePlayButton;
@@ -312,11 +336,17 @@ export class AnimationEditor {
 
                         tableArray2D.push(tableArray3D);
                     }
-
+                    
                     tableRowArray.push(tableArray2D);
+                    
                 }
-            }
 
+                
+                if (this.rows[i].id === rowId){
+                    return tableRowArray;
+                } 
+
+            }
 
             tableArray.push(tableRowArray);
         }

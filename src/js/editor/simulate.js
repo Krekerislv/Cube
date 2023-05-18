@@ -100,6 +100,13 @@ const simulationPopup = document.getElementById('simulation-popup');
 const addNewRowBtn = document.getElementById("btn_addNewRow");
 
 /**
+ * Duplicate last row button element
+ *
+ * @type {HTMLElement}
+ */
+const dupl_last_row_btn = document.getElementById("btn_dupl_last_row");
+
+/**
  * Animation name input field
  *
  * @type {HTMLElement}
@@ -113,7 +120,7 @@ const animationNameInputField = document.getElementById("animation_name")
  */
 const editorPanel = document.getElementById("row-section");
 
-var animationEditor = new AnimationEditor(editorPanel, addNewRowBtn);
+var animationEditor = new AnimationEditor(editorPanel, addNewRowBtn, dupl_last_row_btn);
 var ledCube = new LEDCube(cubeDim, ledSize, spacing, popupWidth, popupHeight);
 simulationSection.appendChild( ledCube.renderer.domElement );
 
