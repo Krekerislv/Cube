@@ -135,9 +135,8 @@ export class PixelCubeToBinary {
                 
 
                 // Set timeout values
-                timeout_matches.forEach((match_index) => {
-                    buffer.set(userTimeoutBuf, match_index);
-                });
+                buffer.set(userTimeoutBuf, timeout_matches[timeout_matches.length-1]);
+                
                 
                 
                 // Create a Blob object from the Uint8Array

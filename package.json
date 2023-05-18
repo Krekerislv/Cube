@@ -1,6 +1,6 @@
 {
   "name": "led_cube",
-  "version": "0.6.9",
+  "version": "0.7.0",
   "description": "LED Cube visualizer",
   "main": "index.js",
   "scripts": {
